@@ -1,0 +1,6 @@
+Features that are not functional:
+    - Dropdown button
+    - point calculator
+    - image
+    - no name, advisor, major, or grade
+    - filter button not working
