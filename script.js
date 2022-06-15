@@ -183,20 +183,19 @@ function addReportCardHeaders(reportCardTableElement) {
  */
 function addCourseRowToReportCard(reportCardTableElement, course, rowNum) {
   // update the code here with information about the course passed to this function
-  reportCardTableElement.innerHTML += 
-  `
+  reportCardTableElement.innerHTML += `
   <div class="table-row course-row row-${rowNum + 1} ${rowNum % 2 === 1 ? "odd" : "even"}">
-    <div class="table-row table-header">
       <h4 class="code-col">${course.code}</h4>
       <h4 class="name-col">${course.name}</h4>
       <h4 class="sem-col">${course.semester}</h4>
-      <h4 class="cred-col"><span className="credits">${course.credits}</span> credits</h4>
+      <h4 class="cred-col">${course.credits}</h4>
       <h4 class="lett-col">${course.grade}</h4>
       <h4 class="pts-col">Points</h4>
-    </div>
   </div>
   `
 }
+
+
 
 /**
  * This function should add HTML for the totals row in the report card.
@@ -226,8 +225,13 @@ function updateReportCard(reportCardTableElement, currentSemester) {
 
   // add your code here
   addReportCardHeaders(reportCardTableElement);
-  //studentData.forEach(sem => addCourseRowToReportCard(reportCardTableElement,sem[0],0))
-  addCourseRowToReportCard(reportCardTableElement,studentData[currentSemester][0],0);
+
+  const courses = studentData[currentSemester];
+
+  courses.forEach((course,i)=> {addCourseRowToReportCard(reportCardTableElement,course,i)});
+  
+  //(sem => addCourseRowToReportCard(reportCardTableElement,sem[0],0))
+  //addCourseRowToReportCard(reportCardTableElement,studentData[currentSemester][0],0);
 
 }
 
@@ -275,17 +279,22 @@ function addEventListeners(
   winterTermElement
 ) {
   // Add an event listener for the dropdown button that calls the openDropdown function with the correct DOM element
-  semDropdown2.addEventListener('click',openDropdown);
+
+  dropdownButtonElement.addEventListener('click', () => {
+    openDropdown(dropdownElement)
+  })
   // Add 3 event listeners - one for the fall semester option, the spring semester option, and the winter term option
-  fallSem.addEventListener('click',closeDropdown);
+  fallSemesterElement.addEventListener('click', () => {
+    semester = "Fall Semester"
+    updateReportCard(reportCardTableElement,semester)
+    closeDropdown(dropdownElement)
+  })
+  /*fallSem.addEventListener('click',closeDropdown);
   springSem.addEventListener('click',closeDropdown);
   winterTerm.addEventListener('click',closeDropdown);
+  */
   // Each callback function one should update the `semester` variable,
-  if (fallSem.clicked){semester = "Fall Semester";}
-  if (springSem.clicked){semester = "Spring Semester";}
-  if (winterTerm.clicked){semester = "Winter Term";}
   // call the `updateReportCard` function, and close the dropdown
-  updateReportCard(reportCardTable,semester);
 }
 
 /***************
