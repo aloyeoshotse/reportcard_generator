@@ -183,7 +183,8 @@ function addReportCardHeaders(reportCardTableElement) {
  */
 function addCourseRowToReportCard(reportCardTableElement, course, rowNum) {
   // update the code here with information about the course passed to this function
-  reportCardTableElement.innerHTML += `
+  reportCardTableElement.innerHTML += 
+  `
   <div class="table-row course-row row-${rowNum + 1} ${rowNum % 2 === 1 ? "odd" : "even"}">
     <div class="table-row table-header">
       <h4 class="code-col">${course.code}</h4>
@@ -225,7 +226,9 @@ function updateReportCard(reportCardTableElement, currentSemester) {
 
   // add your code here
   addReportCardHeaders(reportCardTableElement);
+  //studentData.forEach(sem => addCourseRowToReportCard(reportCardTableElement,sem[0],0))
   addCourseRowToReportCard(reportCardTableElement,studentData[currentSemester][0],0);
+
 }
 
 /**
@@ -240,10 +243,12 @@ function updateReportCard(reportCardTableElement, currentSemester) {
  */
 function closeDropdown(dropdownElement) {
   // code goes here
+  semDropdown.classList.add('closed');
 }
 
 function openDropdown(dropdownElement) {
   // code goes here
+  semDropdown.classList.remove('closed');
 }
 
 /**
@@ -253,6 +258,7 @@ function openDropdown(dropdownElement) {
  */
 function updateDropdownLabel() {
   // code goes here
+  semDropdownLabel = semester;
 }
 
 /**
@@ -269,9 +275,17 @@ function addEventListeners(
   winterTermElement
 ) {
   // Add an event listener for the dropdown button that calls the openDropdown function with the correct DOM element
+  semDropdown2.addEventListener('click',openDropdown);
   // Add 3 event listeners - one for the fall semester option, the spring semester option, and the winter term option
+  fallSem.addEventListener('click',closeDropdown);
+  springSem.addEventListener('click',closeDropdown);
+  winterTerm.addEventListener('click',closeDropdown);
   // Each callback function one should update the `semester` variable,
+  if (fallSem.clicked){semester = "Fall Semester";}
+  if (springSem.clicked){semester = "Spring Semester";}
+  if (winterTerm.clicked){semester = "Winter Term";}
   // call the `updateReportCard` function, and close the dropdown
+  updateReportCard(reportCardTable,semester);
 }
 
 /***************
